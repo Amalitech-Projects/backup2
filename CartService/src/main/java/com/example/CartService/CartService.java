@@ -20,9 +20,11 @@ public class CartService {
     }
 
     public Cart addToCart(Cart cart){
-        return cartRepository.save(cart);
+        return cartRepository.insert(cart);
     }
 
-
+    public Cart updateCart( String id, Cart newCartDetails){
+        return cartRepository.insert(newCartDetails);
+    }
 
 }

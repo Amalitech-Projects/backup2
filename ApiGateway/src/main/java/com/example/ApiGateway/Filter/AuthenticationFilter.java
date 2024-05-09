@@ -18,11 +18,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AuthenticationFilter implements GatewayFilter {
 
-    private RouteValidator validator;
-    private JwtUtil jwtUtils;
+
+    public final RouteValidator validator;
+
+    public final JwtUtil jwtUtils;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        System.out.println("Anything");
         ServerHttpRequest request = exchange.getRequest();
 
         if (validator.isSecured.test(request)) {

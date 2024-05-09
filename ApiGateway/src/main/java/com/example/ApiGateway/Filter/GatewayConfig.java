@@ -1,4 +1,5 @@
 package com.example.ApiGateway.Filter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -7,13 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableHystrix
 public class GatewayConfig {
-    @Autowired
-    private AuthenticationFilter filter;
+
+    private final AuthenticationFilter filter;
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
+        System.out.println("Anything");
         return builder.routes()
                 .route("UserService", r -> r.path("/api/v1/users/**")
                         .filters(f -> f.filter(filter))
@@ -21,6 +24,12 @@ public class GatewayConfig {
                 .route("auth-service", r -> r.path("/api/v1/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:4003"))
+                .route("TravelAppService", r -> r.path("/api/v1/request-service/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:4005"))
+                .route("CartService", r -> r.path("/api/v1/cart/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:4006"))
                 .build();
     }
 }

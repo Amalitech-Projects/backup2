@@ -20,9 +20,9 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-         http
+        http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/request-service/**").permitAll()
                         .anyRequest()
                         .authenticated()
                 );
@@ -34,9 +34,9 @@ public class AuthConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public void comparePassword(String rawPassword, String encodedPassword) {
+    public boolean comparePassword(String rawPassword, String encodedPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        passwordEncoder.matches(rawPassword, encodedPassword);
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 //    @Bean

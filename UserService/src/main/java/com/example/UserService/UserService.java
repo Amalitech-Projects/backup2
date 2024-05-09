@@ -31,6 +31,16 @@ public class UserService {
         return userRepository.findByFirstName(firstName);
     }
 
+    // Update User Info
+    public UserDtos updateUserDetails(String id, UserDtos newUserDetails){
+        Optional<UserEntity> userExists = userRepository.findById(id);
+
+        if(userExists.isPresent()){
+            return userRepository.insert(userExists);
+        }
+        else throw new RuntimeException("Error Updating User");
+    }
+
     public void deleteUser(String id){
         userRepository.deleteById(id);
     }

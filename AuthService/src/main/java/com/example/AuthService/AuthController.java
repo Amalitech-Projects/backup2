@@ -1,15 +1,16 @@
 package com.example.AuthService;
 
+import com.example.AuthService.ErrorHandlerExceptions.LoginErrorException;
 import com.example.AuthService.ResponseEntity.SuccessEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping ("/api/v1/auth")
 public class AuthController {
 
@@ -37,8 +38,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<SuccessEntity> login(@RequestBody AuthLogin userCredentials){
-        return authService.login(userCredentials);
+          boolean match = authService.login(userCredentials);
+          if(match) return ResponseEntity.ok(SuccessEntity
+                  .builder()
+                          .token(authService.generateToken(userCredentials.email()))
+                          .user(UserEntity
+                                  .builder()
+                                  .build())
+                  .build());
+          else throw new LoginErrorException();
     }
 
-//    @PostMapping("/")
+    @PostMapping("/validate")
+        public ResponseEntity<String> validateToken(@RequestBody String token){
+            authService.validateToken(token);
+            return ResponseEntity.ok("Successfully Validated");
+        }
 }

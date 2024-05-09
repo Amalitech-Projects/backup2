@@ -32,31 +32,18 @@ public class AuthService {
                 .password(authConfig.passwordEncoder().encode(user.password()))
                 .role("USER")
                 .build();
-        if(!isEmailAvailable) {
-            authRepository.insert(newUser);
-        }
-        else throw new InvalidUserException("Email already in use!");
+
+        if(isEmailAvailable)
+            throw new InvalidUserException("Email already in use!");
+
+        authRepository.insert(newUser);
+
+
     }
 
-    public ResponseEntity<SuccessEntity> login(AuthLogin userCredentials){
-        Optional<UserEntity> user = authRepository.findByEmail(userCredentials.email());
-
-        if(user.isPresent()) {
-            authConfig.comparePassword(userCredentials.password(), user.get().getPassword());
-            return ResponseEntity.ok(SuccessEntity
-                    .builder()
-                    .token(generateToken(userCredentials.email()))
-                    .user(UserEntity
-                            .builder()
-                            .id(user.get().getId())
-                            .firstName(user.get().getFirstName())
-                            .lastName(user.get().getLastName())
-                            .email(user.get().getEmail())
-                            .role(user.get().getRole())
-                            .build())
-                    .build());
-        }
-        else { throw new LoginErrorException();}
+    public boolean login(AuthLogin userCredentials){
+        UserEntity user = authRepository.findByEmail(userCredentials.email()).orElseThrow(LoginErrorException::new);
+         return authConfig.comparePassword(userCredentials.password(), user.getPassword()); // false - true
     }
 
     public String generateToken(String email) {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/users")
 public class UserController {
 
@@ -35,6 +36,11 @@ public class UserController {
     public List<UserCustomResponse> getUserByFirstName(@PathVariable String firstName){
         return userService.getUserByFirstName(firstName);
     }
+
+//    @PutMapping("/{id}")
+//    public ResponseEntity<UserDtos> updateUserDetails(@RequestParam String id, @RequestBody UserDtos userBody){
+//
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){

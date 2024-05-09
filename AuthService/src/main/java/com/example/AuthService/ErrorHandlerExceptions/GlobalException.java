@@ -17,7 +17,6 @@ public class GlobalException {
                 .status(HttpStatus.FORBIDDEN.value())
                 .message(exception.getMessage())
                 .build();
-
         return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(errorResponse);
     }
 

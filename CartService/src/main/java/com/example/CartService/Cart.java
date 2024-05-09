@@ -2,9 +2,17 @@ package com.example.CartService;
 
 import com.amadeus.resources.FlightOfferSearch;
 import com.amadeus.resources.Hotel;
+import com.mongodb.DBObject;
 import lombok.*;
+import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.Update;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,12 +24,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Cart {
 
     @Id
-    private String Id;
+    public String id;
     private String userId;
-    private FlightOfferSearch[] flight;
-    private Hotel[] stay;
+    private Flight flight;
+    private DBObject stay;
     private String paid;
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
 
 }
-
 

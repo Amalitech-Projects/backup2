@@ -16,4 +16,6 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     public void deleteById(String id);
 
     public UserEntity insert(UserDtos userBody);
+
+    UserDtos insert(Optional<UserEntity> userExists);
 }
