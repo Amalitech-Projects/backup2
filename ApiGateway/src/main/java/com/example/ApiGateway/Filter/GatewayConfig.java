@@ -20,16 +20,19 @@ public class GatewayConfig {
         return builder.routes()
                 .route("UserService", r -> r.path("/api/v1/users/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:4004"))
+                        .uri("lg://UserService"))
                 .route("auth-service", r -> r.path("/api/v1/auth/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:4003"))
+                        .uri("lb://auth-service"))
                 .route("TravelAppService", r -> r.path("/api/v1/request-service/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:4005"))
+                        .uri("lb://TravelAppService"))
                 .route("CartService", r -> r.path("/api/v1/cart/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:4006"))
+                        .uri("lb://CartService"))
+                .route("OAuth", r -> r.path("/api/v1/oauth/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://0Auth"))
                 .build();
     }
 }

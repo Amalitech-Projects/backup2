@@ -26,9 +26,9 @@ public class Cart {
     @Id
     public String id;
     private String userId;
-    private Flight flight;
+    private DBObject flight;
     private DBObject stay;
-    private String paid;
+    private boolean paid;
     @CreatedDate
     private LocalDateTime createdDate;
     @LastModifiedDate

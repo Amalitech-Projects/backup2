@@ -4,10 +4,7 @@ import com.example.AuthService.Config.AuthConfig;
 import com.example.AuthService.Config.JwtService;
 import com.example.AuthService.ErrorHandlerExceptions.InvalidUserException;
 import com.example.AuthService.ErrorHandlerExceptions.LoginErrorException;
-import com.example.AuthService.ResponseEntity.SuccessEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +21,7 @@ public class AuthService {
 
     public void registerUser(UserDtos user){
         boolean isEmailAvailable = authRepository.findByEmail(user.email()).isPresent();
-        UserEntity newUser = UserEntity
+        User newUser = User
                 .builder()
                 .firstName(user.firstName())
                 .lastName(user.lastName())
@@ -42,8 +39,12 @@ public class AuthService {
     }
 
     public boolean login(AuthLogin userCredentials){
-        UserEntity user = authRepository.findByEmail(userCredentials.email()).orElseThrow(LoginErrorException::new);
+        User user = authRepository.findByEmail(userCredentials.email()).orElseThrow(LoginErrorException::new);
          return authConfig.comparePassword(userCredentials.password(), user.getPassword()); // false - true
+    }
+
+    public Optional<User> findByEmail(String email){
+        return authRepository.findByEmail(email);
     }
 
     public String generateToken(String email) {

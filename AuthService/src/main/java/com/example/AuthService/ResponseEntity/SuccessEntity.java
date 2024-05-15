@@ -1,8 +1,7 @@
 package com.example.AuthService.ResponseEntity;
 
-import com.example.AuthService.UserEntity;
+import com.example.AuthService.User;
 import lombok.*;
-import org.springframework.http.ResponseEntity;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 public class SuccessEntity {
 
     private String token;
-    private UserEntity user;
+    private User user;
 
 
 }

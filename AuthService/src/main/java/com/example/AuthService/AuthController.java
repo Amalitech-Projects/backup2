@@ -3,8 +3,6 @@ package com.example.AuthService;
 import com.example.AuthService.ErrorHandlerExceptions.LoginErrorException;
 import com.example.AuthService.ResponseEntity.SuccessEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +23,7 @@ public class AuthController {
                         .token(
                                 authService.generateToken(userbody.email())
                         )
-                        .user(UserEntity
+                        .user(User
                                 .builder()
                                 .email(userbody.email())
                                 .firstName(userbody.firstName())
@@ -42,11 +40,16 @@ public class AuthController {
           if(match) return ResponseEntity.ok(SuccessEntity
                   .builder()
                           .token(authService.generateToken(userCredentials.email()))
-                          .user(UserEntity
+                          .user(User
                                   .builder()
                                   .build())
                   .build());
           else throw new LoginErrorException();
+    }
+
+    @GetMapping("/google")
+    public ResponseEntity<String> google(){
+        return ResponseEntity.ok("Login Successful");
     }
 
     @PostMapping("/validate")

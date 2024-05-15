@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AuthRepository extends MongoRepository<UserEntity, String> {
-    public Optional<UserEntity> findById(String id);
+public interface AuthRepository extends MongoRepository<User, String> {
+    public Optional<User> findById(String id);
     public List<UserDtos> findByFirstName(String FirstName);
-    public Optional<UserEntity> findByEmail(String Email);
+    public Optional<User> findByEmail(String Email);
 
     public void deleteById(String id);
 
-    public UserEntity insert(UserDtos userBody);
+    public User insert(UserDtos userBody);
 }

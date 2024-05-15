@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,22 +12,40 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class AuthConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/request-service/**").permitAll()
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        http.authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/request-service/**", "/api/v1/oauth/**").permitAll()
                         .anyRequest()
-                        .authenticated()
-                );
+                        .authenticated());
         return http.build();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration cfg = new CorsConfiguration();
+//            cfg.setAllowCredentials(true);
+            cfg.setAllowedMethods(Collections.singletonList("*"));
+//            cfg.setAllowedHeaders(Collections.singletonList("*"));
+//            cfg.setAllowedOrigins(List.of("http://localhost:4200"));
+            cfg.setExposedHeaders(List.of("Authorization"));
+            cfg.setMaxAge(3600L);
+            return cfg;
+        };
     }
 
     @Bean
@@ -38,14 +57,6 @@ public class AuthConfig {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider(){
-//        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(userDetailsService());
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return authenticationProvider;
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
