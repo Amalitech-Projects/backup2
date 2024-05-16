@@ -1,4 +1,4 @@
-package com.example.EmailService;
+package com.Travely.EmailService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

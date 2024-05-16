@@ -8,4 +8,5 @@ RUN mvn package -DskipTests
 
 FROM eclipse-temurin:21-jdk-alpine
 COPY --from=builder /app/target/DiscoveryService.jar .
+EXPOSE 4000
 ENTRYPOINT ["java","-jar","DiscoveryService.jar"]

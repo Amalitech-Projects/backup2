@@ -8,4 +8,5 @@ RUN mvn package -DskipTests
 
 FROM eclipse-temurin:21-jdk-alpine
 COPY --from=builder /app/target/CartService.jar .
+EXPOSE 4006
 ENTRYPOINT ["java","-jar","CartService.jar"]

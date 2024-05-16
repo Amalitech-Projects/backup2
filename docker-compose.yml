@@ -65,6 +65,33 @@ services:
     networks:
       - back_network
 
+  oauth-service:
+    build:
+      dockerfile: Dockerfile
+      context: oauth-service
+    ports:
+      - 4008:4008
+    volumes:
+      - ./social-login-rest:/app
+    depends_on:
+      - discovery-service
+      - auth-mongodb
+    networks:
+      - back_network
+
+#  email-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./EmailService
+#    ports:
+#      - 4007:4007
+#    volumes:
+#      - ./EmailService:/app
+#    depends_on:
+#      - discovery-service
+#    networks:
+#      - back_network
+
   user-service:
     build:
       dockerfile: Dockerfile

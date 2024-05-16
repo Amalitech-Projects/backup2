@@ -1,5 +1,6 @@
 package com.example.UserService;
 
+import com.example.UserService.Dtos.UserDtos;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

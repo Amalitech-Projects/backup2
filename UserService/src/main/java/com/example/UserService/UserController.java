@@ -1,5 +1,7 @@
 package com.example.UserService;
 
+import com.example.UserService.Dtos.UserDtos;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,18 +11,11 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
-
-    @GetMapping("/")
-    public String getStart(){
-        return "Works";
-    }
 
     @GetMapping("/all")
     public List<UserCustomResponse> getAllUsers(){
@@ -37,15 +32,20 @@ public class UserController {
         return userService.getUserByFirstName(firstName);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<UserDtos> updateUserDetails(@RequestParam String id, @RequestBody UserDtos userBody){
-//
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDtos> updateUserDetails(@RequestParam String id, @RequestBody UserDtos userBody){
+        return ResponseEntity.ok(userService.updateUserDetails(id, userBody));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
         userService.deleteUser(id);
         return ResponseEntity.ok("Successfully Deleted User");
+    }
+
+    @PutMapping("/forgot-password")
+    public ResponseEntity<String> changePassword(@PathVariable String id){
+        return ResponseEntity.ok("Request Sent Successfully");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.EmailService;
+package com.Travely.EmailService.Service;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -7,15 +7,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class EmailService {
-    public final JavaMailSender javaMailSender;
-    public final TemplateEngine templateEngine;
+public class EmailServiceImpl implements EmailService {
+
+    public JavaMailSender javaMailSender;
+    public TemplateEngine templateEngine;
     public static final String UTF_8_ENCODING = "UTF-8";
     public static final String EMAIL_TEMPLATE = "newProject";
     public static final String TEXT_HTML_ENCONDING = "text/html";
@@ -29,18 +31,18 @@ public class EmailService {
 
     @Override
     @Async
-    public void sendHtmlNewProjectEmail() {
+    public void sendHtmlNewProjectEmail(String data) {
         try {
             Context context = new Context();
 
-            context.setVariables(Map.of("some", "hshs"));
+            context.setVariables(Map.of("Key", "Value"));
             String text = templateEngine.process(EMAIL_TEMPLATE, context);
             MimeMessage message = getMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
             helper.setPriority(1);
             helper.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
             helper.setFrom(fromEmail);
-            helper.setTo("pandit.alabi@amalitech.com");
+            helper.setTo(data);
             helper.setText(text, true);
             //Add attachments (Optional)
             /*FileSystemResource fort = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/fort.jpg"));
@@ -64,3 +66,5 @@ public class EmailService {
         return "<" + filename + ">";
     }
 }
+
+

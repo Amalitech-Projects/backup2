@@ -7,5 +7,6 @@ RUN mvn package -DskipTests
 
 
 FROM eclipse-temurin:21-jdk-alpine
+EXPOSE 4001
 COPY --from=builder /app/target/ApiGateway.jar .
 ENTRYPOINT ["java","-jar","ApiGateway.jar"]

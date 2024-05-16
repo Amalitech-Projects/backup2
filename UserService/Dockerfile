@@ -8,4 +8,5 @@ RUN mvn package -DskipTests
 
 FROM eclipse-temurin:21-jdk-alpine
 COPY --from=builder /app/target/UserService.jar .
+EXPOSE 4004
 ENTRYPOINT ["java","-jar","UserService.jar"]
