@@ -9,13 +9,13 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @ToString
+@Data
 public class HotelParamsByCity {
 
-    private String cityCode;
-    private String radiusUnit;
-    private String checkInDate;
-    private String checkOutDate;
-    private String radius;
-    private int ratings;
+    private String geoId;
+    private String checkIn;
+    private String checkOut;
+    private int pageNumber;
+    private String currencyCode;
 
 }

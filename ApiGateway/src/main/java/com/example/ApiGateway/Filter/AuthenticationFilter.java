@@ -25,7 +25,6 @@ public class AuthenticationFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println("Anything");
         ServerHttpRequest request = exchange.getRequest();
 
         if (validator.isSecured.test(request)) {

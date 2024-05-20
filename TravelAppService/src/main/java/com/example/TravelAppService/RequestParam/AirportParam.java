@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class AirportParam {
 
-    private String keyword;
+    private String query;
+
 
 }

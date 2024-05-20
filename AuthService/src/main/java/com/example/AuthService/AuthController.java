@@ -1,6 +1,9 @@
 package com.example.AuthService;
 
+import com.example.AuthService.Dtos.UserDtos;
 import com.example.AuthService.ErrorHandlerExceptions.LoginErrorException;
+import com.example.AuthService.Models.ForgotPasswords;
+import com.example.AuthService.Models.Verifications;
 import com.example.AuthService.ResponseEntity.SuccessEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +20,17 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<SuccessEntity> register(@RequestBody UserDtos userbody){
         authService.registerUser(userbody);
+        System.out.println("Works");
         return ResponseEntity.ok(
                 SuccessEntity
                         .builder()
                         .token(
-                                authService.generateToken(userbody.email())
+                                authService.generateJwtToken(userbody.email())
                         )
-                        .user(User
+                        .user(UserDtos
                                 .builder()
                                 .email(userbody.email())
-                                .firstName(userbody.firstName())
-                                .lastName(userbody.lastName())
+                                .username(userbody.username())
                                 .role(userbody.role())
                                 .build())
                         .build()
@@ -35,16 +38,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<SuccessEntity> login(@RequestBody AuthLogin userCredentials){
+    public ResponseEntity<String> login(@RequestBody AuthLogin userCredentials){
           boolean match = authService.login(userCredentials);
-          if(match) return ResponseEntity.ok(SuccessEntity
-                  .builder()
-                          .token(authService.generateToken(userCredentials.email()))
-                          .user(User
-                                  .builder()
-                                  .build())
-                  .build());
+          if(match) return ResponseEntity.ok(authService.generateJwtToken(userCredentials.email()));
           else throw new LoginErrorException();
+    }
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<String> verifyEmail(@RequestBody Verifications verificationData){
+        return  ResponseEntity.ok(authService.verifyRegisteredUser(verificationData));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswords forgotBody){
+          authService.forgotPassword(forgotBody);
+          return ResponseEntity.ok("Email Sent Successfully!");
+    }
+
+    @PutMapping("/verify-forgot-password")
+    public ResponseEntity<String> verifyForgotPassword(@RequestBody ForgotPasswords forgotBody){
+        return ResponseEntity.ok(authService.verifyForgotPassword(forgotBody));
     }
 
     @GetMapping("/google")
@@ -54,7 +67,7 @@ public class AuthController {
 
     @PostMapping("/validate")
         public ResponseEntity<String> validateToken(@RequestBody String token){
-            authService.validateToken(token);
+            authService.validateJwtToken(token);
             return ResponseEntity.ok("Successfully Validated");
         }
 }

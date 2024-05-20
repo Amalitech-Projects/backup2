@@ -1,20 +1,15 @@
 package com.example.TravelAppService;
 
 import com.amadeus.exceptions.ResponseException;
-import com.example.TravelAppService.DataModels.Airlines;
-import com.example.TravelAppService.DataModels.FlightData;
-import com.example.TravelAppService.DataModels.HotelOffers;
-import com.example.TravelAppService.DataModels.LocationData;
+import com.example.TravelAppService.DataModels.*;
 import com.example.TravelAppService.DataModels.MultipleFlightDto.FlightSearchRequest;
 import com.example.TravelAppService.RequestParam.*;
-import com.example.TravelAppService.TravelServices.Airports;
-import com.example.TravelAppService.TravelServices.AirlineServices;
-import com.example.TravelAppService.TravelServices.FlightOffersService;
-import com.example.TravelAppService.TravelServices.HotelOffersService;
+import com.example.TravelAppService.TravelServices.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -27,8 +22,9 @@ public class TravelController {
 
     // Flight Service
     public final FlightOffersService flightOffersService;
-    public final HotelOffersService hotelOffersService;
     public final Airports aiports;
+    public final HotelsRapidApi hotelsRapidApi;
+    public final PaymentService paymentService;
     public final AirlineServices airlineServices;
 
     @GetMapping("/")
@@ -36,9 +32,14 @@ public class TravelController {
         return ResponseEntity.ok(aiports.test());
     }
 
+//    @PostMapping("/airports")
+//    public ResponseEntity<List<LocationData>> getAirports(@RequestBody AirportParam keyword) throws ResponseException, JsonProcessingException {
+//        return ResponseEntity.ok(aiports.getAirports(keyword));
+//    }
+
     @PostMapping("/airports")
-    public ResponseEntity<List<LocationData>> getAirports(@RequestBody AirportParam keyword) throws ResponseException, JsonProcessingException {
-        return ResponseEntity.ok(aiports.getAirports(keyword));
+    public ResponseEntity<Mono<String>> getAirports(@RequestBody AirportParam query)  {
+        return ResponseEntity.ok(hotelsRapidApi.searchAirport(query));
     }
 
     @PostMapping("/airlines")
@@ -56,14 +57,26 @@ public class TravelController {
         return ResponseEntity.ok(flightOffersService.multipleFlights(flightRequest));
     }
 
-    @PostMapping("/hotels-by-geo-location")
-    public ResponseEntity<List<HotelOffers>> getHotelsByGeoLocation(@RequestBody HotelParamByGeoCode hotelParams) throws JsonProcessingException, ResponseException {
-        return ResponseEntity.ok(hotelOffersService.hotels(hotelParams));
+
+
+    @PostMapping("/hotels-offers")
+    public ResponseEntity<Mono<String>> getHotelsOffers(@RequestBody GeneralQueryParams hotelParams) {
+        return ResponseEntity.ok(hotelsRapidApi.searchHotelsOffer(hotelParams));
     }
 
-    @PostMapping("/hotels-by-city")
-    public ResponseEntity<List<HotelOffers>> getHotelsByCity(@RequestBody HotelParamsByCity hotelParams) throws JsonProcessingException, ResponseException {
-        return ResponseEntity.ok(hotelOffersService.hotelsByCity(hotelParams));
+    @PostMapping("/hotel-offer")
+    public ResponseEntity<Mono<String>> getHotelOffers(@RequestBody HotelParamsByCity hotelParams) {
+        return ResponseEntity.ok(hotelsRapidApi.searchHotelOffer(hotelParams));
     }
+
+    @PostMapping("/init-payment")
+    public ResponseEntity<Mono<String>> initializePayment(@RequestBody PaymentBody paymentBody){
+        return ResponseEntity.ok(paymentService.initializeTransaction(paymentBody));
+    }
+
+//    @PostMapping("/hotels-by-city")
+//    public ResponseEntity<List<HotelOffers>> getHotelsByCity(@RequestBody HotelParamsByCity hotelParams) throws JsonProcessingException, ResponseException {
+//        return ResponseEntity.ok(hotelOffersService.hotelsByCity(hotelParams));
+//    }
 
 }

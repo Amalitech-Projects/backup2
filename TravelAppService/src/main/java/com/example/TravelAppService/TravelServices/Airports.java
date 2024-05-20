@@ -24,7 +24,7 @@ public class Airports {
     public List<LocationData> getAirports(AirportParam keyword) throws ResponseException, JsonProcessingException {
         Location[] locations = travelService.amadeus.referenceData.locations.get(
                 Params
-                .with("keyword", keyword.getKeyword())
+                .with("keyword", keyword.getQuery())
                 .and("subType", Locations.ANY));
 
         if(locations[0].getResponse().getStatusCode() != 200) {

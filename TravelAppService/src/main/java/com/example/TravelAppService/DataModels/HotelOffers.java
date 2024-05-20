@@ -1,6 +1,7 @@
 package com.example.TravelAppService.DataModels;
 
 import com.amadeus.resources.Hotel;
+import com.amadeus.resources.HotelOfferSearch;
 import lombok.*;
 
 @Getter
@@ -25,3 +26,5 @@ public class HotelOffers {
     private Hotel.Distance distance;
     private String lastUpdate;
 }
+
+

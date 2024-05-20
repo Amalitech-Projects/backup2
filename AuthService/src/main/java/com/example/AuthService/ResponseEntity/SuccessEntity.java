@@ -1,6 +1,6 @@
 package com.example.AuthService.ResponseEntity;
 
-import com.example.AuthService.User;
+import com.example.AuthService.Dtos.UserDtos;
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,7 +12,7 @@ import lombok.*;
 public class SuccessEntity {
 
     private String token;
-    private User user;
+    private UserDtos user;
 
 
 }

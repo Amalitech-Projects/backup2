@@ -1,132 +1,132 @@
-services:
-  auth-service:
-    build:
-      dockerfile: Dockerfile
-      context: ./AuthService
-    ports:
-      - 4003:4003
-    volumes:
-      - ./AuthService:/app
-    depends_on:
-      - discovery-service
-      - auth-mongodb
-    networks:
-      - back_network
-
-  auth-mongodb:
-    image: mongo
-    restart: always
-    environment:
-        MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
-        MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
-
-  cart-service:
-    build:
-      dockerfile: Dockerfile
-      context: ./CartService
-    ports:
-      - 4006:4006
-    volumes:
-      - ./CartService:/app
-    depends_on:
-      - discovery-service
-      - cart-mongodb
-    networks:
-      - back_network
-
-  cart-mongodb:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
-
-  discovery-service:
-    build:
-      dockerfile: Dockerfile
-      context: ./DiscoveryService
-    ports:
-      - 4000:4000
-    volumes:
-      - ./DiscoveryService:/app
-    networks:
-      - back_network
-
-  travelapp-service:
-    build:
-      dockerfile: Dockerfile
-      context: ./TravelAppService
-    ports:
-      - 4005:4005
-    volumes:
-      - ./TravelAppService:/app
-    depends_on:
-      - discovery-service
-    networks:
-      - back_network
-
-  oauth-service:
-    build:
-      dockerfile: Dockerfile
-      context: oauth-service
-    ports:
-      - 4008:4008
-    volumes:
-      - ./social-login-rest:/app
-    depends_on:
-      - discovery-service
-      - auth-mongodb
-    networks:
-      - back_network
-
-#  email-service:
+#services:
+#  auth-service:
 #    build:
 #      dockerfile: Dockerfile
-#      context: ./EmailService
+#      context: ./AuthService
 #    ports:
-#      - 4007:4007
+#      - 4003:4003
 #    volumes:
-#      - ./EmailService:/app
+#      - ./AuthService:/app
+#    depends_on:
+#      - discovery-service
+#      - auth-mongodb
+#    networks:
+#      - back_network
+#
+#  auth-mongodb:
+#    image: mongo
+#    restart: always
+#    environment:
+#        MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
+#        MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
+#
+#  cart-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./CartService
+#    ports:
+#      - 4006:4006
+#    volumes:
+#      - ./CartService:/app
+#    depends_on:
+#      - discovery-service
+#      - cart-mongodb
+#    networks:
+#      - back_network
+#
+#  cart-mongodb:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
+#      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
+#
+#  discovery-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./DiscoveryService
+#    ports:
+#      - 4000:4000
+#    volumes:
+#      - ./DiscoveryService:/app
+#    networks:
+#      - back_network
+#
+#  travelapp-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./TravelAppService
+#    ports:
+#      - 4005:4005
+#    volumes:
+#      - ./TravelAppService:/app
 #    depends_on:
 #      - discovery-service
 #    networks:
 #      - back_network
-
-  user-service:
-    build:
-      dockerfile: Dockerfile
-      context: ./UserService
-    ports:
-      - 4004:4004
-    volumes:
-      - ./UserService:/app
-    depends_on:
-      - discovery-service
-      - user-mongodb
-    networks:
-      - back_network
-
-  user-mongodb:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
-
-  api-gateway:
-    build:
-      dockerfile: Dockerfile
-      context: ./ApiGateway
-    ports:
-      - 4001:4001
-    volumes:
-      - ./ApiGateway:/app
-    depends_on:
-      - discovery-service
-    networks:
-      - back_network
-
-
-networks:
-  back_network:
-    name: back_network
+#
+#  oauth-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: oauth-service
+#    ports:
+#      - 4008:4008
+#    volumes:
+#      - ./social-login-rest:/app
+#    depends_on:
+#      - discovery-service
+#      - auth-mongodb
+#    networks:
+#      - back_network
+#
+##  email-service:
+##    build:
+##      dockerfile: Dockerfile
+##      context: ./EmailService
+##    ports:
+##      - 4007:4007
+##    volumes:
+##      - ./EmailService:/app
+##    depends_on:
+##      - discovery-service
+##    networks:
+##      - back_network
+#
+#  user-service:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./UserService
+#    ports:
+#      - 4004:4004
+#    volumes:
+#      - ./UserService:/app
+#    depends_on:
+#      - discovery-service
+#      - user-mongodb
+#    networks:
+#      - back_network
+#
+#  user-mongodb:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER}
+#      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
+#
+#  api-gateway:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./ApiGateway
+#    ports:
+#      - 4001:4001
+#    volumes:
+#      - ./ApiGateway:/app
+#    depends_on:
+#      - discovery-service
+#    networks:
+#      - back_network
+#
+#
+#networks:
+#  back_network:
+#    name: back_network

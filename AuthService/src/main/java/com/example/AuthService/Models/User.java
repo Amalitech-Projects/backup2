@@ -1,4 +1,4 @@
-package com.example.AuthService;
+package com.example.AuthService.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -14,12 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 
     private String id;
-    private String firstName;
-    private String lastName;
+    private String username;
     private String email;
-
-    @JsonIgnore
     private String password;
     private String role;
+    private String userType;
+    private boolean isVerified;
 
 }
