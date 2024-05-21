@@ -4,6 +4,7 @@ import com.example.AuthService.Dtos.UserDtos;
 import com.example.AuthService.ErrorHandlerExceptions.LoginErrorException;
 import com.example.AuthService.Models.ForgotPasswords;
 import com.example.AuthService.Models.Verifications;
+import com.example.AuthService.Response.LoginResponse;
 import com.example.AuthService.ResponseEntity.SuccessEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +39,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthLogin userCredentials){
+    public ResponseEntity<LoginResponse> login(@RequestBody AuthLogin userCredentials){
           boolean match = authService.login(userCredentials);
-          if(match) return ResponseEntity.ok(authService.generateJwtToken(userCredentials.email()));
+          if(match) return ResponseEntity.ok(LoginResponse
+                  .builder()
+                          .token(authService.generateJwtToken(userCredentials.email()))
+                          .message("Login Successful!")
+                  .build());
           else throw new LoginErrorException();
     }
 

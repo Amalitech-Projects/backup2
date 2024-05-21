@@ -11,6 +11,6 @@ public class EmailUtils {
     }
 
     public static String getVerificationUrl(String host, String token, String email) {
-        return  host + "?token=" + token + "?email=" + email;
+        return  host + "?code=" + token + "&?email=" + email;
     }
 }

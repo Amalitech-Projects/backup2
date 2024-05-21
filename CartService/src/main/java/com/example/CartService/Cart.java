@@ -23,8 +23,8 @@ public class Cart {
     public String id;
     private String userId;
     private List<Flight> flight;
-    private String stay;
-    private List<Car> carRental;
+    private List<String> stay;
+    private List<String> carRental;
     private boolean paid;
     @CreatedDate
     private LocalDateTime createdDate;
@@ -32,4 +32,46 @@ public class Cart {
     private LocalDateTime updatedDate;
 
 }
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
+@Document
+class Hotels {
+
+    @Id
+    public String id;
+    private String userId;
+    private String name;
+    private String price;
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
+
+}
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
+@Document
+class Flights {
+
+    @Id
+    public String id;
+    private String userId;
+    private Flight flight;
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
+
+}
+
 

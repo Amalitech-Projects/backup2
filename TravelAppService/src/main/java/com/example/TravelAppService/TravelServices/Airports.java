@@ -25,7 +25,7 @@ public class Airports {
         Location[] locations = travelService.amadeus.referenceData.locations.get(
                 Params
                 .with("keyword", keyword.getQuery())
-                .and("subType", Locations.ANY));
+                .and("subType", Locations.CITY));
 
         if(locations[0].getResponse().getStatusCode() != 200) {
             System.out.println("Wrong status code: " + locations[0].getResponse().getStatusCode());

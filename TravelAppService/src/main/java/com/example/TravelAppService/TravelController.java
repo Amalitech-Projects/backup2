@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/v1/request-service")
 public class TravelController {
 
@@ -32,15 +33,15 @@ public class TravelController {
         return ResponseEntity.ok(aiports.test());
     }
 
-//    @PostMapping("/airports")
-//    public ResponseEntity<List<LocationData>> getAirports(@RequestBody AirportParam keyword) throws ResponseException, JsonProcessingException {
-//        return ResponseEntity.ok(aiports.getAirports(keyword));
-//    }
-
     @PostMapping("/airports")
-    public ResponseEntity<Mono<String>> getAirports(@RequestBody AirportParam query)  {
-        return ResponseEntity.ok(hotelsRapidApi.searchAirport(query));
+    public ResponseEntity<List<LocationData>> getAirports(@RequestBody AirportParam keyword) throws ResponseException, JsonProcessingException {
+        return ResponseEntity.ok(aiports.getAirports(keyword));
     }
+//
+//    @PostMapping("/airports")
+//    public ResponseEntity<Mono<String>> getAirports(@RequestBody AirportParam query)  {
+//        return ResponseEntity.ok(hotelsRapidApi.searchAirport(query));
+//    }
 
     @PostMapping("/airlines")
     public ResponseEntity<List<Airlines>> getAirlines(@RequestBody AirlineParam airlineParam) throws ResponseException, JsonProcessingException {

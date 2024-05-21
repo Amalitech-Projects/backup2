@@ -1,11 +1,13 @@
 package com.example.CartService;
 
+import com.example.CartService.Repositories.CarRepository;
+import com.example.CartService.Repositories.CardRepository;
+import com.example.CartService.Repositories.CartRepository;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +16,7 @@ public class CartService {
     public final CartRepository cartRepository;
 
     public final CardRepository cardRepository;
+    public final CarRepository carRepository;
 
     public List<Cart> getCart(){
         return cartRepository.findAll();
@@ -25,6 +28,10 @@ public class CartService {
 
     public Cart addToCart(Cart cart){
         return cartRepository.insert(cart);
+    }
+
+    public Cars addCar(Cars car){
+        return carRepository.insert(car);
     }
 
     public Cart updateCart( String id, Cart newCartDetails){
@@ -46,6 +53,10 @@ public class CartService {
 
     public Card  getACard(String id){
         return cardRepository.findByUserId(id).orElseThrow(() -> new NotFoundException("Card not found"));
+    }
+
+    public List<Cars> getCars(){
+        return carRepository.findAll();
     }
 
 

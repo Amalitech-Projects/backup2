@@ -12,10 +12,10 @@ import java.util.List;
 public class RouteValidator {
 
     public static final List<String> openEndpoints = List.of(
-            "/api/v1/auth",
-            "/api/v1/request-service",
-            "/api/v1/oauth",
-            "/api/v1/email-service"
+            "/api/v1/auth/**",
+            "/api/v1/request-service/**",
+            "/api/v1/oauth/**",
+            "/api/v1/email-service/**"
     );
 
     public Predicate<ServerHttpRequest> isSecured =

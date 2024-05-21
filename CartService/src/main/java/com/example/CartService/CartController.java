@@ -11,6 +11,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart")
+@CrossOrigin
 public class CartController {
 
 //    public final PaymentService paymentService;
@@ -51,5 +52,9 @@ public class CartController {
         return cartService.getACard(userId);
     }
 
+    @GetMapping("/cars")
+    public List<Cars> getAllCars(){
+        return cartService.getCars();
+    }
 
 }

@@ -28,7 +28,7 @@ public class AuthConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         http.authorizeRequests( auth -> {
-            auth.requestMatchers("/**").permitAll();
+            auth.requestMatchers("/api/v1/**").permitAll();
                 });
         return http.build();
     }
@@ -38,8 +38,8 @@ public class AuthConfig {
             CorsConfiguration cfg = new CorsConfiguration();
 //            cfg.setAllowCredentials(true);
             cfg.setAllowedMethods(Collections.singletonList("*"));
-//            cfg.setAllowedHeaders(Collections.singletonList("*"));
-//            cfg.setAllowedOrigins(List.of("http://localhost:4200"));
+            cfg.setAllowedHeaders(Collections.singletonList("*"));
+            cfg.setAllowedOrigins(List.of("*"));
             cfg.setExposedHeaders(List.of("Authorization"));
             cfg.setMaxAge(3600L);
             return cfg;

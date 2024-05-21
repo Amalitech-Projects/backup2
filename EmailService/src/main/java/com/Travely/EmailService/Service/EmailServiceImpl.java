@@ -59,7 +59,7 @@ public class EmailServiceImpl implements EmailService {
     public void forgotPasswordEmail(ForgotPassword data) {
         try {
             Context context = new Context();
-            context.setVariables(Map.of("name", data.getName(), "url", getVerificationUrl("http://localhost:4200/forgot-password", data.getToken(), data.getEmail())));
+            context.setVariables(Map.of("name", data.getName(), "url", getVerificationUrl("http" + "://" + "localhost:4200/forgot-password", data.getToken(), data.getEmail())));
             String text = templateEngine.process(FORGOT_PASSWORD_TEMPLATE, context);
 
             MimeMessage message = getMimeMessage();

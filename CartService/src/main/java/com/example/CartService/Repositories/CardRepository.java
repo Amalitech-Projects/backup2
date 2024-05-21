@@ -1,5 +1,6 @@
-package com.example.CartService;
+package com.example.CartService.Repositories;
 
+import com.example.CartService.Card;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
